@@ -1,56 +1,73 @@
-# Text Classification using NLP and Machine Learning
+# Retrieval-Augmented Generation (RAG) Question Answering System
 
-This project builds an end-to-end Natural Language Processing (NLP) pipeline to classify text data into predefined categories using traditional machine learning models.
+This project implements a Retrieval-Augmented Generation (RAG) pipeline that combines document retrieval with a Large Language Model (LLM) to generate context-aware answers from custom knowledge sources.
+
+The system retrieves relevant documents using vector similarity search and feeds them into an LLM to generate accurate, grounded responses.
 
 ## Features
-- Text data preprocessing and cleaning
-- Tokenization and normalization
-- Stopword removal
-- TF-IDF feature extraction
-- Model training and evaluation
-- Accuracy and F1-score analysis
-- Confusion matrix visualization
-- Sample prediction on custom input text
+- Document ingestion and preprocessing
+- Text chunking for efficient retrieval
+- Embedding generation using transformer models
+- Vector database indexing (FAISS / Chroma)
+- Semantic similarity search
+- Context-aware answer generation using LLM
+- Source document reference display
+- Interactive query interface
 
 ## Technologies Used
 - Python
+- LangChain
+- HuggingFace Transformers / OpenAI API
+- FAISS or ChromaDB
+- Sentence Transformers
 - Pandas
 - NumPy
-- NLTK
-- Scikit-learn
-- Matplotlib
-- Seaborn
 
 ## Methodology
-- Load raw text dataset
-- Clean text (lowercasing, removing punctuation and special characters)
-- Remove stopwords
-- Convert text into numerical features using TF-IDF vectorization
-- Split dataset into 80% training and 20% testing
-- Train classification models (Logistic Regression / Naive Bayes / SVM)
-- Evaluate model using Accuracy and F1-score
-- Generate confusion matrix for performance analysis
+- Load documents (PDF / TXT / CSV)
+- Split documents into smaller text chunks
+- Generate embeddings for each chunk
+- Store embeddings in a vector database
+- Convert user query into embedding
+- Retrieve top-k relevant chunks using similarity search
+- Pass retrieved context + query to LLM
+- Generate grounded response
 
-## Model Pipeline
-- Data Loading
-- Text Preprocessing
-- Feature Extraction (TF-IDF)
-- Model Training
-- Evaluation
-- Prediction
+## RAG Pipeline
+- Document Loading
+- Text Chunking
+- Embedding Generation
+- Vector Indexing
+- Similarity Retrieval
+- Context Injection
+- LLM Response Generation
+
+## System Flow
+User Query
+    ↓
+Query Embedding
+    ↓
+Vector Similarity Search
+    ↓
+Top-K Relevant Chunks
+    ↓
+LLM with Context
+    ↓
+Generated Answer
 
 ## Results
-- Successfully classified text into target categories
-- Achieved competitive accuracy on test dataset
-- Model generalizes well to unseen text inputs
+- Improved factual accuracy compared to standalone LLM
+- Reduced hallucination by grounding responses in retrieved context
+- Efficient semantic retrieval using vector search
 
 ## Project Structure
-text-classification-nlp/
+rag-question-answering/
 │
-├── dataset.csv
-├── nlp_preprocessing.py
-├── model_training.py
-├── evaluation.py
+├── documents/
+├── embeddings/
+├── vector_store/
+├── rag_pipeline.py
+├── app.py
 ├── requirements.txt
 └── README.md
 
@@ -59,23 +76,24 @@ text-classification-nlp/
 Install dependencies:
 
 ```bash
-pip install pandas numpy nltk scikit-learn matplotlib seaborn
+pip install langchain faiss-cpu chromadb sentence-transformers transformers openai pandas numpy
 ```
 
-Run the training script:
+Run the RAG pipeline:
 
 ```bash
-python model_training.py
+python rag_pipeline.py
 ```
 
-Run prediction:
+Run the interactive application:
 
 ```bash
-python predict.py
+python app.py
 ```
 
-## Example Input
-- "This product is amazing and works perfectly"
-- "The service was terrible and disappointing"
+## Example Query
+- "What are the key findings in the uploaded research paper?"
+- "Summarize the company's annual revenue growth."
+- "Explain the methodology described in section 3."
 
-The model outputs the predicted category for the input text.
+The system retrieves relevant context and generates an informed response.
